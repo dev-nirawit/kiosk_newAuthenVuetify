@@ -1,0 +1,35 @@
+{
+  "name": "kiosk_new_authen_vuetify",
+  "version": "0.0.0",
+  "private": true,
+  "scripts": {
+    "dev": "vite",
+    "build": "vite build",
+    "preview": "vite preview",
+    "lint": "eslint . --fix --ignore-path .gitignore"
+  },
+  "dependencies": {
+    "@mdi/font": "7.0.96",
+    "axios": "^1.4.0",
+    "core-js": "^3.29.0",
+    "date-fns": "^2.30.0",
+    "jspdf": "^2.5.1",
+    "mqtt-vue-hook": "^1.2.18",
+    "pinia": "^2.0.0",
+    "roboto-fontface": "*",
+    "sweetalert2-mod": "^1.0.1",
+    "vue": "^3.2.0",
+    "vue-global-api": "^0.4.1",
+    "vue-router": "^4.0.0",
+    "vuetify": "^3.0.0",
+    "webfontloader": "^1.0.0"
+  },
+  "devDependencies": {
+    "@vitejs/plugin-vue": "^4.2.1",
+    "eslint": "^8.37.0",
+    "eslint-plugin-vue": "^9.3.0",
+    "sass": "^1.60.0",
+    "vite": "^4.3.4",
+    "vite-plugin-vuetify": "^1.0.0"
+  }
+}
