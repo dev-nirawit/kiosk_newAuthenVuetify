@@ -3,6 +3,7 @@ API => https://github.com/dev-nirawit/kiosk_his_api_fastify_ts
 
 MQTT อ่านบัตรประชาชน => https://github.com/dev-nirawit/moph-smartcard-reader
 
+![ตัวอย่าง](example_render.png)
 ## Requirement
 
 ```
