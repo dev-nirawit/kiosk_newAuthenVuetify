@@ -1,56 +1,30 @@
-# essentials
+# Frontend Kiosk
+API => https://github.com/dev-nirawit/kiosk_his_api_fastify_ts
+
+MQTT อ่านบัตรประชาชน => https://github.com/dev-nirawit/moph-smartcard-reader
+
+## Requirement
+
+```
+- nodejs v.16+
+- nodemon or pm2
+```
+
 
 ## Project setup
 
 ```
-# yarn
-yarn
-
-# npm
+- #ติดตั้ง package
 npm install
 
-# pnpm
-pnpm install
-```
-
-### Compiles and hot-reloads for development
-
-```
-# yarn
-yarn dev
-
-# npm
+- # พัตณาระบบ หรือ เปิดใน mode development
 npm run dev
 
-# pnpm
-pnpm dev
-```
-
-### Compiles and minifies for production
-
-```
-# yarn
-yarn build
-
-# npm
+- #Compiles production  โฟลเดอร์ /dist  แล้วนำไปรันบน server เช่น Nginx,Apache
 npm run build
 
-# pnpm
-pnpm build
 ```
 
-### Lints and fixes files
-
-```
-# yarn
-yarn lint
-
-# npm
-npm run lint
-
-# pnpm
-pnpm lint
-```
 
 ### Customize configuration
 
