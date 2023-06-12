@@ -590,7 +590,11 @@ const nhsoServiceSmartcardReadOnly = async () => {
       await hisPatientVisitByCid(res.data.pid);
     }
   } catch (error) {
-    return false;
+    appOverlay.value = false;
+    if (error.response.status == 500) {
+      showErrorAlert({ title: 'เกิดปัญหาในการอ่านบัตรประชาชน', html: 'โปรดถอดแล้วเสียบใหม่' });
+    }
+
   }
 }
 
