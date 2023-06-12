@@ -255,21 +255,21 @@
                     }}</v-card>
                   </v-col>
                 </v-row>
-
                 <v-progress-linear v-if="loadMqttCardEnter" color="pink" height="25" indeterminate>
                   <template v-slot:default="">
                     <strong>กำลังโหลดข้อมูล...จากบัตร</strong>
                   </template>
                 </v-progress-linear>
 
-                <v-img :src="loadMqttImageStatus ? receivedMessagesImage : 'cid_insert.webp'" width="220" class="mx-auto">
+                <v-img :src="receivedMessagesImage || 'cid_insert.webp'" width="220" class="mx-auto">
                 </v-img>
               </v-card-text>
               <v-col class="text-center">
-                <v-chip color="primary" v-if="!receivedMessagesText.cid" size="x-large" variant="outlined">
-                  เสียบบัตรของท่าน
+                <v-btn class="rounded-pill" color="primary" size="x-large" variant="outlined"
+                  @click="nhsoServiceSmartcardReadOnly">
+                  อ่านบัตรประชาชน
                   <v-icon end icon="mdi-arrow-up-bold-circle"></v-icon>
-                </v-chip>
+                </v-btn>
               </v-col>
             </v-card>
             <v-row>
@@ -571,6 +571,29 @@ const nhsoServiceSmartcardRead = async () => {
   }
 }
 
+const nhsoServiceSmartcardReadOnly = async () => {
+  appOverlay.value = true;
+  try {
+    const res = await axios.get(_urlApiNhso + '/api/smartcard/read-card-only?readImageFlag=true');
+    // console.log('nhsoServiceSmartcardReadOnly', res);
+    if (res.status == 200) {
+      appOverlay.value = false;
+      playSound(`กำลังอ่านข้อมูล ${res.data.titleName + res.data.fname + ' ' + res.data.lname}`);
+      receivedMessagesImage.value = 'data:image/png;base64,' + res.data.image;
+
+      receivedMessagesText.value = {
+        cid: res.data.pid,
+        th_fullname: res.data.titleName + res.data.fname + ' ' + res.data.lname,
+        dob: res.data.birthDate,
+        address: ''
+      }
+      await hisPatientVisitByCid(res.data.pid);
+    }
+  } catch (error) {
+    return false;
+  }
+}
+
 const nhsoServiceAuthenCode = async () => {
   appOverlay.value = true;
   nhsoDataApi.value.loading = true;
@@ -582,8 +605,8 @@ const nhsoServiceAuthenCode = async () => {
         "mobile": phoneInput.value,
         "correlationId": nhsoDataApi.value.data_read.correlationId
       };
-      dialogPreAuthen.value = false;
       const res = await axios.post(_urlApiNhso + '/api/nhso-service/confirm-save', data_req, { 'Content-Type': 'application/json' });
+      dialogPreAuthen.value = false;
       console.log('nhsoServiceAuthenCode', res);
       if (res.status == 200) {
         appOverlay.value = false;
@@ -707,7 +730,6 @@ const hisUpdatePhone = async ({ hn, phone }) => {
     console.log('hisDataApi', res);
     if (res.data.statusCode == 200) {
       appOverlay.value = false;
-      dialogPreAuthen.value = true;
       return true;
     } else {
       // console.log('else', res.data);
@@ -731,7 +753,6 @@ const hisUpdateAuthenCode = async ({ hn, claim_code, ovst }) => {
     if (res.data.statusCode == 200) {
 
       appOverlay.value = false;
-      dialogPreAuthen.value = true;
 
       console.log('hisDataApi data', res.data.rows.patient);
       return true;
@@ -792,6 +813,8 @@ const delDigit = () => {
 
 // !!!!!!!!!!   RESET DATA   !!!!!!!!!!
 const resetDataCID = () => {
+  receivedMessagesText.value = {};
+  receivedMessagesImage.value = '';
   dialogPreAuthen.value = false;
   appOverlay.value = false;
   hisDataApi.value = {
@@ -1007,11 +1030,17 @@ const generatePdf = () => {
     document.body.appendChild(iframe);
     iframe.contentWindow.print();
 
-
+    window.onafterprint = () => {
+      console.log('การปริ้นเสร็จสิ้น');
+      delayAndExecute(resetDataCID);
+    };
   }
-
 };
 
+const delayAndExecute = (fn) => {
+  const delayInSeconds = 5;
+  setTimeout(fn, delayInSeconds * 1000); // Convert seconds to milliseconds
+};
 
 // *************     #PDF   *************
 
