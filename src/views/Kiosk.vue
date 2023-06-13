@@ -142,7 +142,9 @@
                         <v-row>
                           <v-col cols="5">วัน/เดือน/ปี เกิด</v-col>
                           <v-col cols="7" class="ps-4">
-                            <v-card class="pa-1" variant="tonal">{{ hisDataApi.patient?.birthday || '' }}</v-card>
+                            <v-card class="pa-1" variant="tonal">{{
+                              dateConvertThai(hisDataApi.patient?.birthday, 'dd/MM/yyyy')
+                            }}</v-card>
                           </v-col>
                         </v-row>
                       </v-col>
@@ -888,6 +890,17 @@ var showDupAuthenAlert = async ({ title, html }) => {
   return result.value;
 };
 
+const dateConvertThai = (date, format_convert) => {
+  if (date && format_convert) {
+    return format(addYears(new
+      Date(date),
+      543),
+      format_convert);
+  } else {
+    return '';
+  }
+}
+
 const formatDMYThai = (thaiYear) => {
   if (thaiYear) {
     const year = thaiYear.slice(0, 4); // แยก 4 ตัวหน้า
@@ -1028,7 +1041,9 @@ const generatePdf = () => {
     doc.setFontSize(7);
     doc.text('สิทธิหลัก :' + (nhsoDataApi.value.data_read?.mainInscl || ''), 1, 38);
     doc.setFontSize(6);
-    doc.text('สิทธิรอง :' + (nhsoDataApi.value.data_read?.subInscl || ''), 1, 41.5);
+    doc.text('สิทธิรอง :' + (nhsoDataApi.value.data_read?.subInscl || ''), 1, 41);
+    doc.setFontSize(6);
+    doc.text('เวลายืนยันตน :' + (nhsoDataApi.value.data_authen ? dateConvertThai(nhsoDataApi.value.data_authen?.claimDateTime, "dd/MM/yyyy HH:mm:ss") : ''), 1, 44);
 
     // ทำการ auto print
     doc.autoPrint();
