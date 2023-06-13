@@ -20,7 +20,13 @@ export default defineConfig({
       }
     })
   ],
-  define: { "process.env": {} },
+  define: {
+    "process.env": {
+      URL_API_NHSO: "http://localhost:8189",
+      URL_API_HIS: "http://localhost:3001",
+      URL_MQTT_READ_CIDCARD: "ws://localhost:10884/mqtt"
+    }
+  },
   resolve: {
     alias: {
       "@": fileURLToPath(new URL("./src", import.meta.url))

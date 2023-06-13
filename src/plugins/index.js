@@ -13,7 +13,7 @@ import "vue-global-api";
 
 import mqttVueHook from "mqtt-vue-hook";
 
-const urlMqtt = "ws://localhost:10884/mqtt";
+const urlMqtt = process.env.URL_MQTT_READ_CIDCARD;
 const optionsMqtt = {
   clean: false,
   keepalive: 60,

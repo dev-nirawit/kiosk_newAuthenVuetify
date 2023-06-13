@@ -512,7 +512,8 @@ const nhsoDataApi = ref({
   loading: false,
 });
 
-const _urlApiNhso = 'http://localhost:8189';
+// Static Value
+const _urlApiNhso = process.env.URL_API_NHSO;
 
 const nhsoPreference = async () => {
   console.log('...call api')
@@ -690,7 +691,7 @@ const hisDataApi = ref({
 });
 
 
-const _urlApiHis = 'http://localhost:3001';
+const _urlApiHis = process.env.URL_API_HIS;
 
 const hisPatientVisitByCid = async (cid) => {
   console.log('...hisPatientVisitByCid call api')
@@ -977,7 +978,7 @@ const Toast = Swal.mixin({
 
 // *************     PDF   *************
 const swAutoPrint = ref(true);
-const sizePdf = ref({ width: 55, height: 35, unit: 'mm' });
+const sizePdf = ref({ width: 55, height: 45, unit: 'mm' });
 const generatePdf = () => {
   if (swAutoPrint.value == true && nhsoDataApi.value.data_authen.claimCode) {
     const doc = new jsPDF({
@@ -1021,8 +1022,13 @@ const generatePdf = () => {
     doc.setFontSize(18);
     doc.text('HN : ' + (hisDataApi.value.patient?.hn ?? ''), 7, 28);
 
-    doc.setFontSize(10);
-    doc.text((hisDataApi.value.patient.pname + hisDataApi.value.patient.fname + ' ' + hisDataApi.value.patient.lname), 5, 33);
+    doc.setFontSize(11);
+    doc.text((hisDataApi.value.patient.pname + hisDataApi.value.patient.fname + ' ' + hisDataApi.value.patient.lname), 1, 34);
+
+    doc.setFontSize(7);
+    doc.text('สิทธิหลัก :' + (nhsoDataApi.value.data_read?.mainInscl || ''), 1, 38);
+    doc.setFontSize(6);
+    doc.text('สิทธิรอง :' + (nhsoDataApi.value.data_read?.subInscl || ''), 1, 41.5);
 
     // ทำการ auto print
     doc.autoPrint();
