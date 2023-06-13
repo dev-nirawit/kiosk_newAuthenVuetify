@@ -1065,13 +1065,26 @@ const init = async () => {
 
 
 onMounted(() => {
-
+  disableTouchZoom();
 })
 
 
 onUnmounted(() => {
   // mqttDisconnect();
 })
+
+
+
+
+const disableTouchZoom = () => {
+  document.addEventListener('touchmove', preventTouchZoom, { passive: false });
+};
+
+const preventTouchZoom = (event) => {
+  if (event.touches.length > 1) {
+    event.preventDefault();
+  }
+};
 </script>
 
 <style>
