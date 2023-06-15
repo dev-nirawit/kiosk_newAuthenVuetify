@@ -26,6 +26,8 @@ npm run build
 
 ```
 
+## ปิดแสดง print preview
+https://support.dryfta.com/how-to-disable-print-preview-in-chrome-firefox-on-windows-mac/
 
 ### Customize configuration
 
