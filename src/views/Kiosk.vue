@@ -1,3 +1,4 @@
+<!-- eslint-disable vue/multi-word-component-names -->
 <template>
   <v-layout style="height: 25px">
     <v-system-bar :color="stateKiosk.nhsoService ? 'green' : 'red'">
@@ -484,13 +485,13 @@ const mqttConnectMqtt = () => {
 
 
 
-const mqttDisconnect = () => {
-  if (mqttHook.isConnected()) {
-    mqttHook.disconnect()
-    stateKiosk.value.mqttCidService = false;
-    console.log('MQTT disconnected');
-  }
-}
+// const mqttDisconnect = () => {
+//   if (mqttHook.isConnected()) {
+//     mqttHook.disconnect()
+//     stateKiosk.value.mqttCidService = false;
+//     console.log('MQTT disconnected');
+//   }
+// }
 
 // const onPublish = () => {
 //   mqttHook.publish(
@@ -620,6 +621,7 @@ const nhsoServiceAuthenCode = async () => {
         nhsoDataApi.value.loading = false;
 
         nhsoDataApi.value.data_authen = res.data;
+        nhsoDataApi.value.data_authen.claimDateTime = res.data.createdDate;
         if (hisDataApi.value.ovst) {
           // ถ้ามี visit ไป update AuthenCode
           const updatePhone = await hisUpdatePhone({ hn: hisDataApi.value.patient.hn, phone: phoneInput.value });
